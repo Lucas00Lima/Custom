@@ -11,11 +11,11 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        String filename = "C:\\Users\\lukin\\OneDrive\\Área de Trabalho\\Custom\\Arquivo\\Custom.txt";
-        String url = "jdbc:mysql://localhost:3306/db105";
+        String filename = "Local Arquivo";
+        String url = "jdbc:mysql://localhost:3306/banco_de_dados";
         String user = "root";
-        String password = "@soma+";
-        String table = "general_configuration";
+        String password = "senha";
+        String table = "table";
         List<Dados> dadosList =  new ArrayList<>();
         try {
             //Abre o arquivo
