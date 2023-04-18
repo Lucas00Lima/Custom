@@ -1,9 +1,6 @@
-
-autoBackupDBFull = true
-dbBackupBucket = soma-db-backupsv2
 compressBackup = true
 blockClientOverDebits = true
-standardPaymentMethod = Cartão
+standardPaymentMethod = Cartão,debito,credito
 hideBottomFieldsType4 = true
 relateCardAndClient = true
 showChangeInBill = true
