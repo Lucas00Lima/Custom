@@ -1,5 +1,3 @@
-import com.google.gson.Gson;
-
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,7 +22,7 @@ public class App {
             //Separa os dados do arquivo por linha e depois separa os valores por =
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                String[] values = line.split("=");
+                String[] values = line.split(",");
                 String key = values[0].replaceAll("\"", "'");
                 String value = values[1].replaceAll("\"", "'");
                 Dados dados = new Dados(key, value);
