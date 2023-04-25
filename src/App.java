@@ -6,7 +6,7 @@ import java.util.List;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        String filename = "localdoarquivo";
+        String filename = "locaDoArquivo";
         File file = new File();
         List<Dados> dadosList = file.verificarRegras(filename);
         OpenBank open = new OpenBank();
