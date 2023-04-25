@@ -12,21 +12,20 @@ import java.util.regex.Pattern;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        String filename = "C:\\Users\\lukin\\OneDrive\\Área de Trabalho\\Arquivo\\custom1.csv";
-        String url = "jdbc:mysql://localhost:3306/db105";
+        String filename = "localarquivo";
+        String url = "jdbc:mysql://localhost:3306/Banco";
         String user = "root";
-        String password = "@soma+";
-        String table = "table";
+        String password = "Senha";
         List<Dados> dadosList = new ArrayList<>();
         try {
             File file = new File(filename);
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                String module = "";
+                String module;
                 String value = "";
                 if (line.contains("availableSaleTypes")) {
-                    Pattern pattern = Pattern.compile("\\[(.*?)\\]");
+                    Pattern pattern = Pattern.compile("\\[(.*?)]");
                     Matcher matcher = pattern.matcher(line);
                     if (matcher.find()) {
                         value = matcher.group(1);
@@ -59,7 +58,7 @@ public class App {
                     stmt.setString(1, dados.getKey());
                     stmt.setString(2, dados.getValue());
                     stmt.setString(3, dados.getModule());
-                    int rows = stmt.executeUpdate();
+                    stmt.executeUpdate();
                     count++;
                 }
                 System.out.println(count + " Linhas inseridas");
