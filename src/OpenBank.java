@@ -5,10 +5,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class OpenBank {
-    String url = "jdbc:mysql://localhost:3306/db105";
+    String url = "jdbc:mysql://localhost:3306/banco";
     String user = "root";
-    String password = "@soma+";
-    String table = "general_configuration";
+    String password = "senha";
+    String table = "table";
     public void openBank(List<Dados> dadosList) throws ClassNotFoundException {
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
             Class.forName("com.mysql.jdbc.Driver");
