@@ -12,33 +12,33 @@ import java.util.regex.Pattern;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        String filename = "localArquivo";
-        String url = "jdbc:mysql://localhost:3306/Banco";
+        String filename = "C:\\Users\\lukin\\OneDrive\\Área de Trabalho\\Arquivo\\custom1.csv";
+        String url = "jdbc:mysql://localhost:3306/db105";
         String user = "root";
-        String password = "Senha";
+        String password = "@soma+";
         String table = "table";
-        List<Dados> dadosList =  new ArrayList<>();
+        List<Dados> dadosList = new ArrayList<>();
         try {
             File file = new File(filename);
-            Scanner scanner =  new Scanner(file);
+            Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String module = "";
                 String value = "";
-                        if(line.contains("availableSaleTypes")) {
-                            Pattern pattern = Pattern.compile("\\[(.*?)\\]");
-                            Matcher matcher = pattern.matcher(line);
-                                if(matcher.find()) {
-                                    value = matcher.group(1);
-                                }
-                                line =  line.replaceFirst(Pattern.quote(value), "");
-                                String[] values = line.split(",");
-                                module = values[2].replaceAll("\"", "'");
-                        }else {
-                            String[] values = line.split(",");
-                            value = values[1].replaceAll("\"", "'");
-                            module = values[2].replaceAll("\"", "'");
-                        }
+                if (line.contains("availableSaleTypes")) {
+                    Pattern pattern = Pattern.compile("\\[(.*?)\\]");
+                    Matcher matcher = pattern.matcher(line);
+                    if (matcher.find()) {
+                        value = matcher.group(1);
+                    }
+                    line = line.replaceFirst(Pattern.quote(value), "");
+                    String[] values = line.split(",");
+                    module = values[2].replaceAll("\"", "'");
+                } else {
+                    String[] values = line.split(",");
+                    value = values[1].replaceAll("\"", "'");
+                    module = values[2].replaceAll("\"", "'");
+                }
                 String[] values = line.split(",");
                 String key = values[0].replaceAll("\"", "'");
                 String arrayString = Arrays.toString(values);
@@ -47,48 +47,27 @@ public class App {
                 dadosList.add(dados);
             }
             scanner.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
             Class.forName("com.mysql.jdbc.Driver");
             String sql = "INSERT INTO  general_configuration (`key`, value, module) VALUES (?, ?, ?)";
-                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                    int count = 0;
-                    for (Dados dados : dadosList) {
-                        stmt.setString(1,dados.getKey());
-                        stmt.setString(2, dados.getValue());
-                        stmt.setString(3, dados.getModule());
-                        int rows = stmt.executeUpdate();
-                        count++;
-                    }
-                    System.out.println(count + " Linhas inseridas");
-                } catch (SQLException e) {
-                    e.printStackTrace();
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                int count = 0;
+                for (Dados dados : dadosList) {
+                    stmt.setString(1, dados.getKey());
+                    stmt.setString(2, dados.getValue());
+                    stmt.setString(3, dados.getModule());
+                    int rows = stmt.executeUpdate();
+                    count++;
                 }
-        }catch (SQLException e) {
+                System.out.println(count + " Linhas inseridas");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-public static class Dados {
-    private String key;
-    private String value;
-    private String module;
-        public Dados(String key, String value, String module) {
-            this.key = key;
-            this.value = value;
-            this.module = module;
-        }
-        public String getKey() {return key;}
-        public void setKey(String key) {
-            this.key = key;
-        }
-        public String getValue() {return value;}
-        public void setValue(String value) {
-            this.value = value;
-        }
-        public String getModule() {return module;}
-        public void setModule(String module) {this.module = module;}
     }
 }
